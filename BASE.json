@@ -1,0 +1,30 @@
+{
+  "versao": "0.1.0-beta.1",
+  "checkpoint": "85f50363130be208e378573fc49ad263b44a57c6",
+  "origem": "edição de uso aprovada",
+  "modificacoes_no_nucleo": false,
+  "inclui_dados_pessoais": false,
+  "inclui_extensoes_de_terceiros": false,
+  "fontes_sha256": {
+    "aparencia.py": "880c8c1814a7d231d42911fe94ddd30fbaab634f2312a4d68c6d46763739a0e1",
+    "contas_vinculadas.py": "81cc243bb39da2ffc13517917867f691eda14fb6ba9d1425a74496203e4d24b3",
+    "core/__init__.py": "59939db3100c034bfcf98bc9e72ffaf89fa876f2d46fbfd3d9705f15dc085cfc",
+    "core/ambiente.py": "9f1004dc334b1e5c9e1af6b778d00c654874a2416da5053efb6c19a13104d30c",
+    "core/browserman.py": "9e5f79323fbaf72a6689df06738c38b8827bd1eac0e33863ebd7d0a8e7d06b9f",
+    "core/enderecos.py": "9f5c51b210c8ca8d81f5e57d86f23162c5c2f378821356c66a33431866a97f19",
+    "core/jogos.py": "cee3998dacce8c8874c5a8e3cfb322ae309c7a287a8e05f8f1c2eb0b207e017b",
+    "core/limpeza.py": "21cdadc7abcd648e489df61619c77f4d7928f9f09df2d73becc51f9ef3e01bd9",
+    "core/lives.py": "4fe46a03d5ce8262468c843e7b8a10b0a31f441600bae692f4cb0f28f908af90",
+    "core/perfis.py": "126a1d1c4d7d96d00041676109410483070d1d4741521d6896cae00aef2e6756",
+    "core/sessoes_vinculadas.py": "d973ac422d9537bd457eb6972c4021a42b89c500b76f14364ecffd56820c3f50",
+    "core/streamopt.py": "2ea775b5a4537c087b65d10d17fc3fa5fb8c01b6b2c1f840818f1bbcab4ad0ac",
+    "jogos_interface.py": "5ff963042aebd920e710266699480cd80ccc801381a9d6d58b457b4ec80ce5cb",
+    "layout.py": "50165bcabe25c13b9536269c4234acf0b3d803356d8515f82551375e9e94c76d",
+    "lives_interface.py": "a15809ca2487116d74be2197da23ea8b6715afebc8ab998de7a8b5d8657b541a",
+    "main.py": "efa1062bfe9f69ac549c243a433956ddb2e1b7f0de64010c74ac39f4cf1262b8",
+    "movimento.py": "f4d876082322f7b7730d0820cbb2e82f5227d33f7a51756cdab634bf9ed9a6ed",
+    "perfis_interface.py": "5d153199ffc4d29c195fb66aef2601fe8f9eb2d7b6acbf94703b2ea54f4eec97",
+    "prova_navegador.py": "2736e781c8c4a3da83798c7ea92024e4e2f77ba4f1925e07b3cf54d4f9483ceb",
+    "rolagem.py": "2928f1748bd026e96e054ac9fcfc339c6bea82dbcff5b7c2e1797465400ec416"
+  }
+}

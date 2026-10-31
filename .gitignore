@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+.venv/
+dist/
+build/
+local/
+data/
+*.zip
+*.exe
+*.dll
+*.pyd
+*.log
+.env
+.env.*
+*.sqlite*

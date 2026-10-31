@@ -1,0 +1,4 @@
+customtkinter==6.0.0 --hash=sha256:704fcbf1d2fca06bd7881b0afacfae72aed9864c9b6de2870e632e55eb3a0456
+darkdetect==0.8.0 --hash=sha256:a7509ccf517eaad92b31c214f593dbcf138ea8a43b2935406bbd565e15527a85
+packaging==26.3 --hash=sha256:d7193f7c8e4e93f444fde0262bf90af30e16fa0ad0ad44cb553c87339b23cd1c
+tkwry==0.1.9 --hash=sha256:4874a6f778d473feb4aed3f68caab52446e0e2c7b376514a98d4510b49ecb390
