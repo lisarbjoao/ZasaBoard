@@ -1,9 +1,7 @@
-# Estado da beta
+# Estado da distribuição pública
 
-Versão: 0.1.0-beta.1. Base: checkpoint de uso `85f50363130be208e378573fc49ad263b44a57c6`. O núcleo exportado conserva seus hashes, registrados em `BASE.json`; o empacotamento fornece caminhos privados por usuário e um runtime separado.
+Versão atual: ZasaBoard Beta 2, 2.0.0-beta.9. [Instalador e ZIP](https://github.com/lisarbjoao/Idleboard-Beta/releases/tag/v2.0.0-beta.9).
 
-Início e Perfis são as abas disponíveis da edição de uso. O laboratório e alterações da candidata de desenvolvimento ficam fora desta beta. A aprovação de uso relatada pelo autor não equivale a testes em todos os computadores.
+Inclui Início/cartões, Perfis, contas vinculadas, Jogos/URLs, Lives, Configurações e catálogo de extensões. Alinhar e espelhamento de cliques/rolagem são opt-in. Cliques foram confirmados pelo autor no jogo; rolagem passou por ensaios locais. Estabilidade prolongada, serviços externos e benefícios seguem sujeitos a conferência por máquina/conta.
 
-Distribuição: instalador Windows x64 e ZIP com executável e arquivos de suporte. O repositório contém fontes próprias, documentação e ferramentas de compilação; binários são anexados às versões, sem dados de conta.
-
-A avaliação externa deve conferir autenticação, estabilidade prolongada, desempenho com diferentes números de sessões e compatibilidade dos serviços. Falhas devem ser reproduzidas com dados removidos antes de incluir evidências públicas.
+Não inclui perfis, cookies, credenciais, diagnósticos pessoais, extensão externa /hunt ou a base do laboratório. A desinstalação preserva os dados. A Beta 1 é uma versão histórica e continua identificada por sua release original; não confundir com esta distribuição.
