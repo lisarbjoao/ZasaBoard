@@ -12,3 +12,6 @@ O código do Idleboard e seu empacotamento são próprios. Os arquivos binários
 As versões e hashes de instalação estão em `requirements-runtime.lock`. O navegador usa Microsoft Edge WebView2 Runtime instalado no Windows; ele não é copiado de um perfil de usuário nem incorporado ao instalador. O iniciador e o instalador utilizam o .NET Framework do Windows.
 
 Não são incluídos arquivos da extensão /hunt, código coletado do jogo, cookies ou bancos de navegador.
+
+
+Identidade visual: Shiny Charizard/Pokémon são personagens de terceiros. Referências das imagens em docs/design-zasaboard.md; não são reivindicados como criação original deste projeto.

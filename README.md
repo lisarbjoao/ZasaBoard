@@ -1,39 +1,88 @@
-# Idleboard Beta
+<p align="center">
+  <img src="assets/charizard-capa.png" width="280" alt="Shiny Charizard preto com asas vermelhas e chamas alaranjadas" />
+</p>
 
-Interface desktop para gerenciar múltiplas sessões de jogos, com cartões ajustáveis, perfis persistentes e contas vinculadas. Beta pública de avaliação para Windows 10/11 de 64 bits.
+<h1 align="center">ZasaBoard</h1>
 
-Esta distribuição usa o checkpoint de uso aprovado `85f5036`, preservando o código dos cartões e perfis. As abas disponíveis são **Início** e **Perfis**. Não inclui o laboratório experimental, ferramentas em desenvolvimento, extensão /hunt de terceiros, cadastros ou logins do desenvolvedor.
+<p align="center">Uma interface para organizar múltiplas sessões web, perfis e plataformas.</p>
+<p align="center"><strong>Windows x64 · Python · CustomTkinter · WebView2</strong></p>
 
-## Instalar
+---
 
-1. Abra a [página desta beta](https://github.com/lisarbjoao/Idleboard-Beta/releases/tag/v0.1.0-beta.1).
-2. Baixe o arquivo terminado em **Setup.exe** e execute-o.
-3. Clique em **Instalar**. Depois abra **Idleboard Beta** pelo atalho da área de trabalho.
-4. Crie/edite seus próprios perfis e faça login nas páginas dos cartões.
+O ZasaBoard reúne sessões independentes em cartões para acompanhar jogos, plataformas e fluxos de trabalho. O projeto começou como Idleboard Manager e explora uma interface reutilizável para gerenciar várias sessões sem perder a organização dos perfis.
 
-Não precisa instalar Python nem executar como administrador. O Windows precisa ter **Microsoft Edge WebView2 Runtime**; em caso de ausência, use a [página oficial da Microsoft](https://developer.microsoft.com/microsoft-edge/webview2/). O instalador desta beta não tem assinatura digital; o Windows pode mostrar uma identificação de editor desconhecido.
+## O que você pode fazer
 
-Alternativa portátil: baixe o ZIP, extraia a pasta inteira e execute `IdleboardBeta.exe`. Não envie ou mova apenas esse executável: ele depende dos arquivos que o acompanham. O instalador já leva esses arquivos dentro dele.
+- **Organizar cartões:** modos Amplo, Confortável e Compacto, foco individual e ocultação mantendo a sessão aberta.
+- **Manter perfis:** nomes editáveis, armazenamento persistente e contas de plataformas associadas a cada personagem.
+- **Controlar páginas:** recarga, visualização, áudio e zoom por cartão.
+- **Acompanhar lives:** grupos Multitwitch, páginas Kick e chats Twitch usando a conta associada ao perfil.
+- **Alinhar e espelhar:** padronizar área e zoom antes de ativar a repetição de cliques entre cartões compatíveis.
+- **Usar extensões por jogo:** catálogo contextual, com integração pessoal opt-in do `/hunt` para PokeIdle e acesso ao laboratório configurado separadamente.
 
-## Dados e remoção
+## Beta 2 para Windows
 
-Cada usuário começa sem cadastros ou sessões do desenvolvedor. Metadados e dados de navegação ficam em `%LOCALAPPDATA%\IdleboardBeta\profiles`. A aplicação não envia diagnósticos ou credenciais ao desenvolvedor; os sites acessados mantêm suas próprias conexões e políticas.
+Cartões, perfis, contas vinculadas, Multitwitch, áudio, Alinhar e espelhamento de cliques/rolagem. Cliques confirmados pelo autor no PokeIdle; rolagem e suíte completa validadas com navegadores locais. Estabilidade prolongada em outros computadores continua em avaliação.
 
-Para remover, feche a beta e use **Configurações do Windows → Aplicativos → Idleboard Beta → Desinstalar**, ou o atalho Desinstalar no menu Iniciar. Os perfis locais são preservados. Não compartilhe essa pasta: ela pode conter sessões autenticadas.
+### Baixar e instalar
 
-## Testar e relatar
+1. Abra a [página da Beta 2](https://github.com/lisarbjoao/Idleboard-Beta/releases/tag/v2.0.0-beta.9).
+2. Baixe **ZasaBoard-2.0.0-beta.9-Setup.exe** e execute-o.
+3. Abra **ZasaBoard Beta 2** pelo atalho da área de trabalho ou pelo menu Iniciar.
 
-Confira criação, renomeação e exclusão de perfis, persistência após reabrir, abertura e recarga das páginas, modos da grade, ocultação/foco e contas vinculadas por URL. O layout de uso foi aprovado pelo autor; desempenho prolongado em outros computadores ainda precisa de avaliação.
+Não precisa instalar Python nem manter VS Code aberto. Requer Windows 10/11 x64 e Microsoft Edge WebView2 Runtime. O instalador não tem assinatura digital. O ZIP é a alternativa portátil: extraia a pasta completa e execute `ZasaBoardBeta.exe`.
 
-Relate problemas em [Issues](https://github.com/lisarbjoao/Idleboard-Beta/issues), informando versão, versão do Windows, quantidade de sessões e passos para reproduzir. Não envie senhas, cookies, pastas de perfil ou capturas com dados pessoais. Não há garantia de bônus de lives ou de compatibilidade permanente com sites externos.
+### Seus dados
 
-## Código e documentação
+O pacote começa sem contas, cookies ou credenciais do desenvolvedor. Os dados ficam em `%LOCALAPPDATA%/IdleboardBeta/profiles`, conservando o local da Beta 1. A desinstalação preserva os perfis. Não compartilhe essa pasta.
 
-- [Estado da beta](docs/estado.md)
-- [Diário de desenvolvimento](docs/diario.md)
-- [Decisões de distribuição](docs/distribuicao.md)
-- [Compilação](docs/compilacao.md)
-- [Changelog](CHANGELOG.md)
-- [Dependências e licenças](THIRD-PARTY-NOTICES.md)
+Esta é a distribuição pública do gerenciador. **Não inclui o script externo do `/hunt` nem a base do laboratório PokeIdle-Lab**. O carregador de extensões é código próprio e fica disponível para configuração local. Autenticação e bônus dependem das plataformas; manter uma página aberta não garante benefícios.
 
-O código próprio está publicado para inspeção da beta. Ainda não foi definida uma licença de redistribuição comercial. As dependências conservam suas licenças próprias. Este repositório não contém o histórico privado de desenvolvimento ou a investigação do PokeIdle.
+## Desenvolvimento
+
+Use Python 3.12 x64 com suporte a Tk:
+
+```powershell
+py -3.12 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install --require-hashes -r requirements-runtime.lock
+.\.venv\Scripts\python.exe app/main.py
+```
+
+O desenvolvimento, a candidata e a edição de uso possuem diretórios de dados separados. Confira [edições](docs/edicoes.md) antes de atualizar a instalação ou compartilhar uma pasta de perfil.
+
+## Estrutura do projeto
+
+| Área | Responsabilidade |
+| --- | --- |
+| `main.py`, `layout.py` | Interface, cartões e distribuição responsiva |
+| `movimento.py`, `rolagem.py` | Transições e navegação da grade |
+| `core/browserman.py` | Sessões WebView2 e diretórios persistentes |
+| `core/espelho.py`, `core/espelho_scripts.py` | Alinhamento, validação e repetição de cliques |
+| `contas_vinculadas.py`, `lives_interface.py` | Contas associadas e plataformas de lives |
+| `tests/` | Testes unitários, de interface e de navegador local |
+| `tools/` | Congelamento de edições e preparação de distribuições |
+| `assets/`, `docs/` | Identidade visual, decisões e histórico |
+
+## Testes
+
+```powershell
+.\.venv\Scripts\python.exe -m unittest discover -s tests
+```
+
+Os ensaios desktop/WebView2 exigem Windows interativo e `IDLEBOARD_UI_TESTS=1`; sem essa variável, são explicitamente ignorados. A última suíte completa registrada passou em **86 testes**. Testes sintéticos não substituem login, bônus ou conferência prolongada no jogo real.
+
+## Documentação
+
+- [Diário de desenvolvimento](docs/diario-desenvolvimento.md)
+- [Identidade visual](docs/design-zasaboard.md)
+- [Alinhamento e espelhamento](docs/espelhamento.md)
+- [Perfis e contas associadas](docs/perfis.md)
+- [Lives e sessões](docs/lives.md)
+- [Verificação da Beta 2](docs/verificacao-beta2.md)
+- [Histórico de alterações](CHANGELOG.md)
+
+## Escopo e créditos
+
+A engenharia reversa e o laboratório PokeIdle-Lab são projetos separados. O ZasaBoard fornece a interface de gerenciamento; não representa uma reconstrução completa do servidor do jogo. Hivemind também permanece separado.
+
+A identidade com Shiny Charizard pertence à edição pessoal. Pokémon e Charizard são personagens de terceiros; as referências dos arquivos estão no [registro de design](docs/design-zasaboard.md). Scripts externos do `/hunt`, sessões e diagnósticos pessoais do computador permanecem fora do Git. Este repositório público contém uma exportação do produto; o histórico de desenvolvimento privado permanece separado.

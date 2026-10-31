@@ -9,7 +9,7 @@ import subprocess
 import zipfile
 
 RAIZ=Path(__file__).resolve().parents[1]
-VERSAO='0.1.0-beta.1'
+VERSAO='2.0.0-beta.9'
 PACOTES=('customtkinter','darkdetect','packaging','tkwry')
 
 
@@ -30,7 +30,7 @@ def copiar(origem,destino):
 
 def compilar(csc,fonte,saida,*extras):
     subprocess.run([str(csc),'/nologo','/target:winexe','/platform:x64','/optimize+',
-                    '/r:System.Windows.Forms.dll','/r:System.Drawing.dll','/r:System.IO.Compression.dll',
+                    '/win32icon:'+str(RAIZ/'assets/zasaboard.ico'),'/r:System.Windows.Forms.dll','/r:System.Drawing.dll','/r:System.IO.Compression.dll',
                     '/r:System.IO.Compression.FileSystem.dll','/out:'+str(saida),*extras,str(fonte)],check=True)
 
 
@@ -39,7 +39,7 @@ def construir(python,dependencias,tcl,saida,csc):
     if saida.exists():raise ValueError('A saída já existe; use uma pasta nova.')
     python,dependencias,tcl,csc=map(lambda p:Path(p).resolve(),(python,dependencias,tcl,csc))
     if not (python/'python312.dll').is_file():raise ValueError('Use o runtime Windows Python 3.12 x64 validado.')
-    pacote=saida/'IdleboardBeta'
+    pacote=saida/'ZasaBoard'
     pacote.mkdir(parents=True)
     base=json.loads((RAIZ/'BASE.json').read_text(encoding='utf-8'))
     for nome,sha in base['fontes_sha256'].items():
@@ -65,18 +65,19 @@ def construir(python,dependencias,tcl,saida,csc):
     for nome in ('README.md','THIRD-PARTY-NOTICES.md','BASE.json'):
         copiar(RAIZ/nome,pacote/nome)
     copiar(RAIZ/'packaging/bootstrap.py',pacote/'bootstrap.py')
-    compilar(csc,RAIZ/'packaging/Launcher.cs',pacote/'IdleboardBeta.exe')
+    compilar(csc,RAIZ/'packaging/Launcher.cs',pacote/'ZasaBoardBeta.exe')
     compilar(csc,RAIZ/'packaging/Uninstall.cs',pacote/'UninstallBeta.exe')
+    shutil.copytree(RAIZ/'assets',pacote/'assets')
     hashes={p.relative_to(pacote).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in pacote.rglob('*') if p.is_file()}
     (pacote/'manifesto.json').write_text(json.dumps({'versao':VERSAO,'checkpoint':base['checkpoint'],
         'dados_pessoais_incluidos':False,'arquivos_sha256':hashes},ensure_ascii=False,indent=2),encoding='utf-8')
-    portatil=saida/('IdleboardBeta-'+VERSAO+'-Windows-x64.zip')
+    portatil=saida/('ZasaBoard-'+VERSAO+'-Windows-x64.zip')
     with zipfile.ZipFile(portatil,'x',compression=zipfile.ZIP_DEFLATED,compresslevel=1) as z:
         for nome in list(hashes)+['manifesto.json']:z.write(pacote/nome,nome)
     sha=hashlib.sha256(portatil.read_bytes()).hexdigest()
     fonte=(RAIZ/'packaging/Setup.cs').read_text(encoding='utf-8').replace('__PAYLOAD_SHA__',sha)
     gerado=saida/'Setup.generated.cs';gerado.write_text(fonte,encoding='utf-8-sig')
-    instalador=saida/('IdleboardBeta-'+VERSAO+'-Setup.exe')
+    instalador=saida/('ZasaBoard-'+VERSAO+'-Setup.exe')
     compilar(csc,gerado,instalador,'/resource:'+str(portatil)+',IdleboardPayload.zip')
     checksums=saida/'SHA256SUMS.txt'
     checksums.write_text(''.join(hashlib.sha256(p.read_bytes()).hexdigest()+'  '+p.name+'\n' for p in (instalador,portatil)),encoding='ascii')

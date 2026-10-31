@@ -8,7 +8,7 @@ from tools.build_beta import permitido,RAIZ
 class DistribuicaoTest(unittest.TestCase):
     def test_approved_sources_are_unchanged(self):
         base=json.loads((RAIZ/'BASE.json').read_text(encoding='utf-8'))
-        self.assertEqual(base['checkpoint'],'85f50363130be208e378573fc49ad263b44a57c6')
+        self.assertEqual(base['checkpoint'],'e7fb8d201569076df904e189b6777781d2f55dfb')
         for nome,sha in base['fontes_sha256'].items():
             p=RAIZ/'app'/nome
             self.assertTrue(p.resolve().is_relative_to((RAIZ/'app').resolve()))

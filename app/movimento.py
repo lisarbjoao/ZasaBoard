@@ -110,7 +110,7 @@ def animar_grade(rolagem, cartoes, origens, destinos, nomes, concluir, duracao=0
             overlay.unbind("<Destroy>", anterior["destruir_id"])
         overlay.delete("all")
     else:
-        overlay = tk.Canvas(rolagem, bg="#10121b", highlightthickness=0)
+        overlay = tk.Canvas(rolagem, bg="#121212", highlightthickness=0)
     escala = rolagem._get_widget_scaling()
     altura = rolagem._parent_canvas.winfo_height()
     overlay.place(x=0, y=0, width=rolagem.winfo_width(), height=altura)
@@ -124,11 +124,11 @@ def animar_grade(rolagem, cartoes, origens, destinos, nomes, concluir, duracao=0
         if min(origem[1], destino[1]) * escala > altura * 1.2:
             continue
         itens[indice] = (
-            overlay.create_rectangle(0, 0, 1, 1, fill="#191d2b", outline=""),
-            overlay.create_rectangle(0, 0, 1, 1, fill="#22283b", outline=""),
+            overlay.create_rectangle(0, 0, 1, 1, fill="#1d1d20", outline=""),
+            overlay.create_rectangle(0, 0, 1, 1, fill="#252529", outline=""),
             overlay.create_text(0, 0, text=nomes[indice][:30], anchor="w", fill="#edf0fb",
                                 font=("Segoe UI", -round(14 * escala), "bold")),
-            overlay.create_text(0, 0, text="PokeIdle · prévia simulada", fill="#b8bfd8",
+            overlay.create_text(0, 0, text="PokeIdle · prévia simulada", fill="#d5ccc7",
                                 font=("Segoe UI", -round(14 * escala))),
         )
     inicio = perf_counter()

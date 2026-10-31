@@ -32,6 +32,8 @@ def validar(live, vinculos):
     canal = urlsplit(url).path.strip('/')
     if not canal:
         raise ValueError('Cole o endereço do canal, incluindo seu nome após o domínio.')
+    if plataforma(url) == 'twitch':
+        canal_twitch(url)
     conta = next((v for v in vinculos if v['id'] == live['vinculo_id']), None)
     if conta is None or plataforma_conta(conta) != plataforma(url):
         raise ValueError('Escolha uma conta vinculada à mesma plataforma da live.')

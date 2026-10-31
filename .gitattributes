@@ -1,2 +1,5 @@
 * text=auto
 app/** -text
+
+# Preserve source hashes while recognizing native CRLF as line endings.
+app/** whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

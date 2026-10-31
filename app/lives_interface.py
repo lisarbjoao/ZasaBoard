@@ -4,7 +4,7 @@ import tkinter as tk
 from tkinter import messagebox
 import customtkinter as ctk
 from aparencia import BOTAO_CARTAO, LARGURA_ICONE_CARTAO, JanelaAuxiliar
-from core import browserman, lives as cadastro, perfis, sessoes_vinculadas, streamopt
+from core import browserman, lives as cadastro, perfis, sessoes_vinculadas, streamopt, multitwitch
 from layout import titulo_personagem, numero_colunas
 from rolagem import instalar_barra_leve
 from movimento import configurar_rolagem_suave
@@ -12,8 +12,9 @@ from movimento import configurar_rolagem_suave
 
 class CartaoLive(ctk.CTkFrame):
     def __init__(self, pai, perfil, live, vinculo, excluir, foco):
-        super().__init__(pai, fg_color='#191d2b', corner_radius=6)
+        super().__init__(pai, fg_color='#1d1d20', corner_radius=6)
         self.perfil, self.live, self.vinculo = perfil, live, vinculo
+        self._verificacao_multitwitch = None
         self.grid_propagate(False)
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(1, weight=1)
@@ -27,17 +28,19 @@ class CartaoLive(ctk.CTkFrame):
             self.canais = ctk.CTkButton(self, text='Canais', width=70, **BOTAO_CARTAO,
                                        command=self.gerenciar_canais)
             self.canais.grid(row=0, column=3, padx=(0, 4))
-        self.host = tk.Frame(self, bg='#22283b')
-        self.host.grid(row=1, column=0, columnspan=4, sticky='nsew', padx=3)
+            ctk.CTkButton(self,text='Chats',width=58,**BOTAO_CARTAO,command=self.abrir_chats).grid(row=0,column=5,padx=(0,4))
+        ctk.CTkButton(self,text='Conta',width=58,**BOTAO_CARTAO,command=self.abrir_conta).grid(row=0,column=4,padx=(0,4))
+        self.host = tk.Frame(self, bg='#252529')
+        self.host.grid(row=1, column=0, columnspan=6, sticky='nsew', padx=3)
         self.mensagem = ctk.CTkLabel(self.host, text='Abra a live e inicie a reprodução na plataforma.',
-                                     wraplength=260, text_color='#a8adc2')
+                                     wraplength=260, text_color='#bcb5b2')
         self.mensagem.place(relx=.5, rely=.5, anchor='center')
         if live.get('_multitwitch'):
             self.mensagem.configure(text='Abra o Multitwitch e controle reprodução e som nos players.')
         rodape = ctk.CTkFrame(self, fg_color='transparent')
-        rodape.grid(row=2, column=0, columnspan=4, sticky='ew', padx=4, pady=4)
+        rodape.grid(row=2, column=0, columnspan=6, sticky='ew', padx=4, pady=4)
         rodape.grid_columnconfigure(0, weight=1)
-        self.status = ctk.CTkLabel(rodape, text='Fechada', width=1, anchor='w', text_color='#a8adc2')
+        self.status = ctk.CTkLabel(rodape, text='Fechada', width=1, anchor='w', text_color='#bcb5b2')
         self.status.grid(row=0, column=0, sticky='ew', padx=6)
         for coluna, (icone, acao) in enumerate((('\ue768', self.abrir), ('\ue71a', self.parar),
                                                 ('\ue72c', lambda: browserman.recarregar(self.estado))), 1):
@@ -48,15 +51,29 @@ class CartaoLive(ctk.CTkFrame):
         self.estado = browserman.criar_estado(pasta)
         self.estado.update(notificar=self._status, _fechar_card=self.parar)
         self.estado['_pagina_carregada'] = self.aplicar_audio
+        self.estado['visualizacao'] = 'responsiva'
         self.botao_audio = ctk.CTkButton(rodape, text='', font=('Segoe MDL2 Assets', 16),
             width=LARGURA_ICONE_CARTAO, **BOTAO_CARTAO, command=self.alternar_audio)
         self.botao_audio.grid(row=0, column=4, padx=1)
+        self.qualidade = None
+        if live.get('_multitwitch'):
+            self.qualidade = ctk.CTkOptionMenu(rodape, values=['Menor vídeo', 'Automática'], width=112,
+                fg_color='#29272a', button_color='#393337', command=self.alterar_qualidade)
+            self.qualidade.grid(row=0, column=5, padx=(4, 0))
         self.atualizar_audio()
         self.atualizar_titulo()
 
     def _botao_icone(self, icone, acao):
         return ctk.CTkButton(self, text=icone, font=('Segoe MDL2 Assets', 16),
                              width=LARGURA_ICONE_CARTAO, **BOTAO_CARTAO, command=acao)
+
+    def abrir_conta(self):
+        from contas_vinculadas import abrir_sessao
+        abrir_sessao(self,self.perfil,self.vinculo)
+
+    def abrir_chats(self):
+        from chats_interface import abrir
+        abrir(self,self.perfil,self.vinculo,[cadastro.canal_twitch(i['url']) for i in self.live['_itens']])
 
     def atualizar_titulo(self):
         nome = f'{cadastro.titulo(self.live)} · {titulo_personagem(self.perfil)}'
@@ -87,7 +104,9 @@ class CartaoLive(ctk.CTkFrame):
 
     def atualizar_audio(self):
         if self.live.get('_multitwitch'):
-            self.botao_audio.grid_remove()
+            opcoes = multitwitch.validar(self.vinculo.get('multitwitch'))
+            self.botao_audio.configure(text='\ue74f' if opcoes['silenciado'] else '\ue767')
+            self.qualidade.set('Menor vídeo' if opcoes['qualidade']=='minima' else 'Automática')
             self.estado['_script_inicial'] = None
             return
         silenciado = self.live.get('silenciado', True)
@@ -96,11 +115,15 @@ class CartaoLive(ctk.CTkFrame):
 
     def aplicar_audio(self):
         if self.live.get('_multitwitch'):
-            return
+            return self._aplicar_multitwitch()
         streamopt.aplicar_audio(self.estado, self.live.get('silenciado', True),
             falhou=lambda _erro: self._status('Controle de áudio indisponível nesta página'))
 
     def alternar_audio(self):
+        if self.live.get('_multitwitch'):
+            opcoes=multitwitch.validar(self.vinculo.get('multitwitch'))
+            opcoes['silenciado']=not opcoes['silenciado']
+            return self._salvar_multitwitch(opcoes)
         anterior = self.live.get('silenciado', True)
         self.live['silenciado'] = not anterior
         if not self.perfil['_salvar']():
@@ -109,10 +132,48 @@ class CartaoLive(ctk.CTkFrame):
         self.atualizar_audio()
         self.aplicar_audio()
 
+    def alterar_qualidade(self, texto):
+        opcoes=multitwitch.validar(self.vinculo.get('multitwitch'))
+        opcoes['qualidade']='minima' if texto=='Menor vídeo' else 'auto'
+        self._salvar_multitwitch(opcoes)
+
+    def _salvar_multitwitch(self, opcoes):
+        anterior=self.vinculo.get('multitwitch')
+        self.vinculo['multitwitch']=multitwitch.validar(opcoes)
+        if not self.perfil['_salvar']():
+            if anterior is None:self.vinculo.pop('multitwitch',None)
+            else:self.vinculo['multitwitch']=anterior
+            self.atualizar_audio()
+            return
+        self.atualizar_audio()
+        self.aplicar_audio()
+
+    def _aplicar_multitwitch(self, tentativa=0):
+        if self._verificacao_multitwitch is not None:
+            self.after_cancel(self._verificacao_multitwitch)
+            self._verificacao_multitwitch=None
+        web=self.estado.get('web')
+        def concluiu(resposta):
+            if not self.winfo_exists() or self.estado.get('web') is not web:return
+            canais=resposta['canais']
+            prontos=sum(c.get('estado')=='controles_prontos' for c in canais)
+            if prontos:
+                self._status(f'Controles: {prontos}/{len(canais)} · reprodução manual')
+            elif resposta['estado'] in ('aguardando_sdk','controles_instalados'):
+                self._status('Aguardando controles · inicie nos players')
+            else:self._status('Controles indisponíveis · use os players')
+            if tentativa<3 and (resposta['estado']=='aguardando_sdk' or any(c.get('estado')=='aguardando_player' for c in canais)):
+                self._verificacao_multitwitch=self.after(1500,lambda:self._aplicar_multitwitch(tentativa+1))
+        multitwitch.aplicar(self.estado,self.vinculo.get('multitwitch'),concluiu=concluiu,
+            falhou=lambda _erro:self._status('Controles indisponíveis · use os players') if self.winfo_exists() and self.estado.get('web') is web else None)
+
     def atualizar_live(self, live):
         mudou = self.live['url'] != live['url']
         self.live = live
         self.atualizar_titulo()
+        if mudou:
+            chats=self.vinculo.get('_janela_chats')
+            if chats is not None and chats.winfo_exists():chats.destroy()
         if mudou and self.estado['web'] is not None:
             self.estado['web'].load_url(live['url'])
 
@@ -134,6 +195,11 @@ class CartaoLive(ctk.CTkFrame):
             ctk.CTkButton(linha, text='Remover', width=80, command=remover).pack(side='right', padx=6)
 
     def parar(self):
+        chats=self.vinculo.get('_janela_chats')
+        if chats is not None and chats.winfo_exists():chats.destroy()
+        if self._verificacao_multitwitch is not None:
+            self.after_cancel(self._verificacao_multitwitch)
+            self._verificacao_multitwitch=None
         browserman.fechar(self.estado, avisar=False)
         sessoes_vinculadas.remover(self.vinculo, self.estado)
         self._status('Fechada · sessão preservada')
@@ -154,30 +220,30 @@ class PainelLives(ctk.CTkFrame):
         self.grid_rowconfigure(2, weight=1)
         self.cabecalho = ctk.CTkLabel(self, text=f'Lives · {nome_jogo}', font=('Segoe UI', 24, 'bold'))
         self.cabecalho.grid(row=0, column=0, sticky='w', pady=(0, 10))
-        formulario = ctk.CTkFrame(self, fg_color='#191d2b')
+        formulario = ctk.CTkFrame(self, fg_color='#1d1d20')
         formulario.grid(row=1, column=0, sticky='ew', pady=(0, 10))
         formulario.grid_columnconfigure((0, 1), weight=1)
         self.menu_perfil = ctk.CTkOptionMenu(formulario, values=['Sem perfis'],
-            fg_color='#24293b', button_color='#30354b', command=self._selecionar_perfil)
+            fg_color='#29272a', button_color='#393337', command=self._selecionar_perfil)
         self.menu_perfil.grid(row=0, column=0, sticky='ew', padx=10, pady=10)
         self.menu_conta = ctk.CTkOptionMenu(formulario, values=['Sem contas vinculadas'],
-            fg_color='#24293b', button_color='#30354b', command=self._selecionar_conta)
+            fg_color='#29272a', button_color='#393337', command=self._selecionar_conta)
         self.menu_conta.grid(row=0, column=1, sticky='ew', padx=(0, 10), pady=10)
-        ctk.CTkButton(formulario, text='Vincular conta', width=110, fg_color='#30354b',
+        ctk.CTkButton(formulario, text='Vincular conta', width=110, fg_color='#393337',
                       command=self.vincular).grid(row=0, column=2, padx=(0, 10), pady=10)
         self.url = ctk.CTkEntry(formulario, placeholder_text='URL do canal na Twitch ou Kick')
         self.url.grid(row=1, column=0, columnspan=2, sticky='ew', padx=10, pady=(0, 10))
         self.adicionar_botao = ctk.CTkButton(formulario, text='+ Live', width=110,
-            fg_color='#7965ed', command=self.adicionar)
+            fg_color='#b94722', command=self.adicionar)
         self.adicionar_botao.grid(row=1, column=2, padx=(0, 10), pady=(0, 10))
         self.url.bind('<Return>', lambda _evento: self.adicionar())
         self.area = ctk.CTkScrollableFrame(self, fg_color='transparent', corner_radius=0)
         self.area.grid(row=2, column=0, sticky='nsew')
         instalar_barra_leve(self.area)
-        self.espaco = tk.Frame(self.area, width=1, height=1, bg='#10121b')
+        self.espaco = tk.Frame(self.area, width=1, height=1, bg='#121212')
         self.espaco.grid(row=0, column=0)
         self.vazio = ctk.CTkLabel(self.area, text='Associe uma conta ao perfil e adicione a URL de uma live.',
-                                 text_color='#a8adc2')
+                                 text_color='#bcb5b2')
         self.area.bind('<Configure>', lambda _evento: self.agendar_layout(), add='+')
         self.area._parent_canvas.bind('<Configure>', lambda _evento: self.agendar_layout(), add='+')
         self._idleboard_atualizar = self.sincronizar

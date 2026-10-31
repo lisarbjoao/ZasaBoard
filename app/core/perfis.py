@@ -9,6 +9,7 @@ from uuid import uuid4
 from urllib.parse import urlsplit
 from core.enderecos import normalizar_url
 from core import lives as cadastro_lives
+from core import audio, multitwitch
 from core.ambiente import PASTA_PERFIS
 
 PASTA = PASTA_PERFIS
@@ -43,6 +44,8 @@ def validar_vinculo(vinculo):
         resultado['url'] = normalizar_url(vinculo['url'])
     elif vinculo['servico'] == 'web':
         raise ValueError('Informe a URL da plataforma.')
+    if 'multitwitch' in vinculo:
+        resultado['multitwitch'] = multitwitch.validar(vinculo['multitwitch'])
     return resultado
 
 
@@ -78,8 +81,12 @@ def validar(perfil):
     lives = [cadastro_lives.validar(live, vinculos) for live in lives]
     if len({live['id'] for live in lives}) != len(lives):
         raise ValueError('Lives duplicadas no cadastro.')
+    visualizacao = perfil.get('visualizacao', 'encaixar')
+    if visualizacao not in ('encaixar', 'responsiva'):
+        raise ValueError('Modo de visualização inválido.')
     return {'id': identificador, 'personagem': nome_valido(perfil.get('personagem')),
-            'visivel': perfil['visivel'], 'vinculos': vinculos, 'lives': lives}
+            'visivel': perfil['visivel'], 'vinculos': vinculos, 'lives': lives,
+            'visualizacao': visualizacao, 'audio': audio.validar(perfil.get('audio'))}
 
 
 def carregar(caminho=CATALOGO, jogos=('pokeidle',)):

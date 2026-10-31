@@ -5,16 +5,18 @@ import customtkinter as ctk
 from tkinter import messagebox
 from core import perfis as cadastro
 from core import jogos as catalogo_jogos
-from core.ambiente import EDICAO_USO, adquirir_instancia
+from core import configuracoes
+from core.ambiente import EDICAO_USO, EDICAO_CANDIDATA, adquirir_instancia
+from versao import VERSAO
 from aparencia import BOTAO_CARTAO, LARGURA_ICONE_CARTAO
 from rolagem import instalar_barra_leve
 from movimento import animar_largura, configurar_rolagem_suave, animar_grade
 from layout import criar_perfil, titulo_personagem, calcular_layout, resolver_modo, numero_colunas
 
-FUNDO = "#10121b"
-PAINEL = "#191d2b"
-DESTAQUE = "#7965ed"
-HOVER = "#30354b"
+FUNDO = "#121212"
+PAINEL = "#1d1d20"
+DESTAQUE = "#b94722"
+HOVER = "#393337"
 CORES_SELETOR = dict(fg_color=PAINEL, button_color=PAINEL,
     button_hover_color=HOVER, dropdown_fg_color=PAINEL,
     dropdown_hover_color=HOVER, text_color="#DCE4EE")
@@ -31,7 +33,10 @@ def obter_extensoes(jogo_id):
 def criar_janela():
     ctk.set_appearance_mode("dark")
     janela = ctk.CTk(fg_color=FUNDO)
-    janela.title('Idleboard · Uso' if EDICAO_USO else 'Idleboard · Desenvolvimento')
+    janela.title(f'ZasaBoard · Candidata {VERSAO}' if EDICAO_CANDIDATA else
+                 'ZasaBoard · Uso' if EDICAO_USO else 'ZasaBoard · Desenvolvimento')
+    from marca import aplicar
+    aplicar(janela,ctk)
     janela.geometry("1100x720")
     janela.minsize(860, 600)
     janela.grid_columnconfigure(1, weight=1)
@@ -50,12 +55,10 @@ def criar_barra_lateral(janela, navegar):
     cabecalho = ctk.CTkFrame(barra, fg_color="transparent", height=42)
     cabecalho.grid(row=0, column=0, sticky="ew", padx=6, pady=(8, 12))
     cabecalho.grid_columnconfigure(0, weight=1)
-    titulo = ctk.CTkLabel(cabecalho, text="Idleboard", font=("Segoe UI", 20, "bold"))
+    titulo = ctk.CTkLabel(cabecalho, text="ZasaBoard", font=("Segoe UI", 20, "bold"))
     titulo.grid(row=0, column=0, padx=(6, 0), sticky="w")
     itens = {"Início": "\ue80f", "Jogos e URLs": "\ue8b7", "Perfis": "\ue77b",
              "Lives": "\ue714", "Extensões": "\ue8a5", "Configurações": "\ue713"}
-    if EDICAO_USO:
-        itens = {nome: itens[nome] for nome in ('Início', 'Perfis')}
     barra.grid_rowconfigure(len(itens) + 1, weight=1)
     botoes, textos = {}, {}
     trilho = ctk.CTkFrame(reserva, width=54, corner_radius=0, fg_color=PAINEL)
@@ -153,7 +156,8 @@ def criar_cartao(area, nome, selecionar, em_foco=False, ocultar=None, perfil=Non
     ultimo_titulo = {"chave": None, "texto": None}
     def ajustar_titulo(_evento=None):
         # A largura calculada do cartão é estável mesmo com a aba oculta.
-        controles = LARGURA_ICONE_CARTAO * (3 if ocultar is not None else 2) + 9
+        com_audio = bool(perfil and perfil.get('prova_navegador'))
+        controles = LARGURA_ICONE_CARTAO * ((3 if ocultar is not None else 2) + int(com_audio)) + 13
         limite = max(0, round((cartao.cget('width') - controles - 24) * titulo._get_widget_scaling()))
         visivel = bool(cartao.winfo_ismapped())
         chave = (nome, limite, visivel)
@@ -207,27 +211,28 @@ def criar_cartao(area, nome, selecionar, em_foco=False, ocultar=None, perfil=Non
     )
     botao_foco.grid(row=0, column=3, padx=(1, 4), pady=4)
     cartao._idleboard_botao_foco = botao_foco
-    previa = ctk.CTkFrame(cartao, fg_color="#22283b", corner_radius=3)
-    previa.grid(row=1, column=0, columnspan=4, padx=3, pady=(0, 3), sticky="nsew")
+    previa = ctk.CTkFrame(cartao, fg_color="#252529", corner_radius=3)
+    previa.grid(row=1, column=0, columnspan=5 if perfil and perfil.get('prova_navegador') else 4,
+                padx=3, pady=(0, 3), sticky="nsew")
     nome_jogo = (perfil or {}).get('_nome_jogo', 'PokeIdle')
     mensagem = ctk.CTkLabel(
         previa, text=f"{nome_jogo}\nPrévia simulada",
-        text_color="#b8bfd8", font=("Segoe UI", 15),
+        text_color="#d5ccc7", font=("Segoe UI", 15),
     )
     mensagem.pack(expand=True, padx=14, pady=20)
-    rodape = ctk.CTkLabel(cartao, text="○ Desconectada", text_color="#a8adc2")
+    rodape = ctk.CTkLabel(cartao, text="○ Desconectada", text_color="#bcb5b2")
     rodape.grid(row=2, column=0, columnspan=4, padx=10, pady=(0, 4), sticky="w")
     if perfil is not None and '_salvar' in perfil:
         from contas_vinculadas import gerenciar
         ctk.CTkButton(cartao, text='\ue8fa', font=FONTE_ICONES,
                       width=LARGURA_ICONE_CARTAO, **BOTAO_CARTAO,
                       command=lambda: gerenciar(cartao, perfil)).grid(
-                          row=2, column=2, padx=1, pady=4)
+                          row=2, column=3 if perfil.get("prova_navegador") else 2, padx=1, pady=4)
     if perfil is not None and perfil.get("prova_navegador"):
         from prova_navegador import instalar
         mensagem.configure(text=f"{nome_jogo}\nSessão independente")
         rodape.configure(width=1,anchor="w")
-        rodape.grid_configure(columnspan=1,sticky="ew")
+        rodape.grid_configure(columnspan=2,sticky="ew")
         instalar(cartao, previa, mensagem, rodape, perfil)
     return cartao
 
@@ -239,13 +244,44 @@ def mostrar_inicio(conteudo, jogo_id, perfis, preferencias):
     ferramentas = ctk.CTkFrame(conteudo, fg_color="transparent")
     ferramentas.grid(row=0, column=0, sticky="ew", pady=(0, 6))
     ferramentas.grid_columnconfigure(0, weight=1)
-    resumo = ctk.CTkLabel(ferramentas, text="", text_color="#a8adc2")
+    resumo = ctk.CTkLabel(ferramentas, text="", text_color="#bcb5b2")
     resumo.grid(row=0, column=0, sticky="w")
     area = ctk.CTkFrame(conteudo, fg_color="transparent")
     area.grid(row=1, column=0, sticky="nsew")
     conteudo._idleboard_area = area
+    from core.espelho import Controlador
+    aviso=ctk.CTkLabel(ferramentas,text='',anchor='w',text_color='#bcb5b2',wraplength=650)
+    def avisar_espelho(texto):
+        if not conteudo.winfo_exists():return
+        aviso.configure(text=texto)
+        aviso.grid(row=1,column=0,columnspan=6,sticky='ew',pady=(3,0))
+        alinhar.configure(fg_color=DESTAQUE if controle.alinhado else PAINEL)
+        ativo=controle.ativo or controle.preparando
+        espelhar.configure(text='Parar' if ativo else 'Espelhar',fg_color=DESTAQUE if ativo else PAINEL)
+    controle=Controlador(conteudo,perfis,avisar_espelho)
+    def alternar_espelho():
+        if controle.ativo or controle.preparando:controle.parar()
+        else:controle.ativar()
+    espelhar=ctk.CTkButton(ferramentas,text='Espelhar',width=84,height=28,fg_color=PAINEL,command=alternar_espelho)
+    alinhar=ctk.CTkButton(ferramentas,text='Alinhar',width=72,height=28,fg_color=PAINEL,command=controle.alinhar)
+    alinhar.grid(row=0,column=3,padx=4)
+    conteudo._idleboard_botao_alinhar=alinhar
+    espelhar.grid(row=0,column=4,padx=4)
+    conteudo._idleboard_espelho=controle
+    conteudo._idleboard_botao_espelho=espelhar
+    raiz=conteudo.winfo_toplevel()
+    escape=raiz.bind('<Escape>',lambda _:controle.parar() if controle.ativo or controle.preparando or controle.alinhado else None,add='+')
+    def sair_espelho(evento):
+        if evento.widget is conteudo and (controle.ativo or controle.preparando or controle.alinhado):controle.parar('Espelhamento desligado ao sair da tela.')
+    conteudo.bind('<Unmap>',sair_espelho,add='+')
+    def destruir_espelho(evento):
+        if evento.widget is conteudo:
+            controle.parar();raiz.unbind('<Escape>',escape)
+    conteudo.bind('<Destroy>',destruir_espelho,add='+')
 
     def atualizar():
+        if controle.ativo or controle.preparando or controle.alinhado:controle.parar('Alinhamento pausado: disposição alterada.')
+        for perfil in perfis:perfil['_espelho_controlador']=controle
         visiveis = sum(perfil["visivel"] for perfil in perfis)
         contexto = "prova de navegador" if any(p.get("prova_navegador") for p in perfis) else "simulação"
         resumo.configure(text=f"{visiveis}/{len(perfis)} visíveis · {contexto}")
@@ -288,7 +324,7 @@ def mostrar_inicio(conteudo, jogo_id, perfis, preferencias):
         fg_color=PAINEL, command=lambda: abrir_ocultos(conteudo, perfis, atualizar))
     recuperar.grid(row=0, column=2, padx=4)
     ctk.CTkButton(ferramentas, text="+ Conta", width=82, height=28,
-                  fg_color=DESTAQUE, command=adicionar).grid(row=0, column=3)
+                  fg_color=DESTAQUE, command=adicionar).grid(row=0, column=5)
     atualizar()
     conteudo._idleboard_atualizar = atualizar
 
@@ -307,7 +343,7 @@ def abrir_ocultos(pai, perfis, atualizar):
     painel.geometry("400x400")
     painel.transient(pai.winfo_toplevel())
     painel.grab_set()
-    ctk.CTkLabel(painel, text="Ocultar não encerra a conta.", text_color="#a8adc2").pack(pady=12)
+    ctk.CTkLabel(painel, text="Ocultar não encerra a conta.", text_color="#bcb5b2").pack(pady=12)
     lista = ctk.CTkScrollableFrame(painel)
     lista.pack(fill="both", expand=True, padx=12, pady=(0, 12))
 
@@ -495,24 +531,8 @@ def mostrar_foco(area, perfil, perfis, preferencias, atualizar=None):
 
 
 def mostrar_extensoes(conteudo, jogo_id):
-    ctk.CTkLabel(
-        conteudo, text=f"Extensões · {JOGOS[jogo_id]['nome']}",
-        font=("Segoe UI", 26, "bold"),
-    ).pack(anchor="w")
-    extensoes = obter_extensoes(jogo_id)
-    if not extensoes:
-        ctk.CTkLabel(conteudo, text="Nenhuma extensão configurada para este jogo.").pack(
-            anchor="w", pady=24
-        )
-    for nome in extensoes:
-        cartao = ctk.CTkFrame(conteudo, fg_color=PAINEL)
-        cartao.pack(fill="x", pady=(20, 0))
-        ctk.CTkLabel(cartao, text=nome, font=("Segoe UI", 18, "bold")).pack(
-            anchor="w", padx=18, pady=(14, 4)
-        )
-        ctk.CTkLabel(cartao, text="Planejada • ainda indisponível", text_color="#a8adc2").pack(
-            anchor="w", padx=18, pady=(0, 14)
-        )
+    from extensoes_interface import mostrar
+    mostrar(conteudo, jogo_id, JOGOS[jogo_id]['nome'])
 
 
 def mostrar_secao(conteudo, nome):
@@ -522,7 +542,7 @@ def mostrar_secao(conteudo, nome):
     }
     ctk.CTkLabel(
         conteudo, text=mensagens[nome], justify="left", wraplength=560,
-        text_color="#a8adc2", font=("Segoe UI", 16),
+        text_color="#bcb5b2", font=("Segoe UI", 16),
     ).pack(anchor="w", pady=24)
 
 
@@ -545,6 +565,7 @@ def main():
         JOGOS.update(jogos_salvos)
         registros = cadastro.carregar(jogos=JOGOS)
         cadastro.salvar(registros)
+        preferencias_app = configuracoes.carregar()
     except (OSError, ValueError) as erro:
         messagebox.showerror('Cadastro local', str(erro), parent=janela)
         janela.destroy()
@@ -552,7 +573,18 @@ def main():
     # A seleção fica fora da área que a navegação reconstrói.
     estado = {"jogo_id": 'pokeidle' if 'pokeidle' in JOGOS else next(iter(JOGOS)), "pagina": "Início",
               "perfis": registros,
-              "layouts": {jogo_id: {"modo": "Confortável"} for jogo_id in JOGOS}}
+              "layouts": {jogo_id: {"modo": preferencias_app['layout_padrao']} for jogo_id in JOGOS}}
+    if preferencias_app['maximizar_ao_abrir']:
+        janela.state('zoomed')
+
+    def salvar_preferencias(dados):
+        try:
+            resultado = configuracoes.salvar(dados)
+        except (OSError, ValueError) as erro:
+            messagebox.showerror('Preferências não salvas', str(erro), parent=janela)
+            return False
+        preferencias_app.update(resultado)
+        return True
     def salvar_cadastro():
         try:
             cadastro.salvar(estado['perfis'])
@@ -613,7 +645,7 @@ def main():
         JOGOS.update(validos)
         for identificador, jogo in JOGOS.items():
             perfis = estado['perfis'].setdefault(identificador, [])
-            preferencias = estado['layouts'].setdefault(identificador, {'modo': 'Confortável'})
+            preferencias = estado['layouts'].setdefault(identificador, {'modo': preferencias_app['layout_padrao']})
             preferencias.update(_salvar=salvar_cadastro,
                                 _adicionar=lambda chave=identificador: adicionar_perfil(chave))
             for perfil in perfis:
@@ -730,6 +762,7 @@ def main():
             return
         try:
             perfil = cadastro.novo(nome)
+            perfil['visualizacao'] = preferencias_app['visualizacao_padrao']
             perfil.update(prova_navegador=True, _salvar=salvar_cadastro, _jogo_id=jogo_id,
                           _excluir=excluir_perfil, _nome_jogo=JOGOS[jogo_id]['nome'],
                           _url_jogo=JOGOS[jogo_id]['url'])
@@ -806,8 +839,6 @@ def main():
 
     def navegar(destino):
         nonlocal tela_secao
-        if EDICAO_USO and destino not in ('Início', 'Perfis'):
-            return
         salvar_edicoes = getattr(tela_secao, '_idleboard_salvar_edicoes', None)
         if salvar_edicoes is not None and not salvar_edicoes():
             return
@@ -855,6 +886,9 @@ def main():
                 from perfis_interface import mostrar
                 mostrar(tela_secao, estado['perfis'][jogo_id], lambda: adicionar_perfil(jogo_id),
                         abrir_perfil, excluir_perfil)
+            elif destino == 'Configurações':
+                from configuracoes_interface import mostrar
+                mostrar(tela_secao, preferencias_app, salvar_preferencias)
             else:
                 mostrar_secao(tela_secao,destino)
 

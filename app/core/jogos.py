@@ -8,10 +8,10 @@ import tempfile
 from uuid import uuid4
 from core.enderecos import normalizar_url
 from core.ambiente import PASTA_PERFIS
+from core.extensoes import listar as listar_extensoes
 
 CATALOGO = PASTA_PERFIS / 'jogos.json'
 PADRAO = {'pokeidle': {'nome': 'PokeIdle', 'url': 'https://pokeidle.io/app'}}
-EXTENSOES = {'pokeidle': ('/hunt',)}
 
 
 def validar(jogos):
@@ -28,7 +28,7 @@ def validar(jogos):
             raise ValueError('Use um nome único, com até 80 caracteres.')
         nomes.add(nome.casefold())
         resultado[identificador] = {'nome': nome, 'url': normalizar_url(jogo.get('url')),
-                                     'extensoes': EXTENSOES.get(identificador, ())}
+                                     'extensoes': tuple(modulo.nome for modulo in listar_extensoes(identificador))}
     return resultado
 
 

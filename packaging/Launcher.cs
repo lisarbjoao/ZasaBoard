@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
@@ -24,7 +24,7 @@ class Launcher {
                 return process.ExitCode;
             }
         } catch (Exception error) {
-            MessageBox.Show("Não foi possível iniciar o Idleboard Beta.\n" + error.Message, "Idleboard Beta", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show("Não foi possível iniciar o ZasaBoard Beta 2.\n" + error.Message, "ZasaBoard Beta 2", MessageBoxButtons.OK, MessageBoxIcon.Error);
             return 1;
         }
     }

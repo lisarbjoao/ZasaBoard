@@ -11,7 +11,7 @@ def instalar_barra_leve(rolagem):
     largura = original.winfo_reqwidth()
     original.grid_remove()
     barra = tk.Canvas(rolagem._parent_frame, width=largura, height=1,
-                       bg="#10121b", highlightthickness=0, borderwidth=0)
+                       bg="#121212", highlightthickness=0, borderwidth=0)
     barra.grid(**grade)
     rolagem._idleboard_barra_leve = barra
     estado = {"primeiro": 0.0, "ultimo": 1.0, "topo": 0, "tamanho": 0, "arraste": None}
