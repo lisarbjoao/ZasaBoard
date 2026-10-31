@@ -9,3 +9,5 @@ Criados iniciador executável, instalador e desinstalador para Windows x64. O em
 Este diário começa na separação pública. O histórico privado permanece no projeto original, sem ser importado para este repositório.
 
 Validação de distribuição: três testes Python aprovados; instalador verificou o payload e instalou por usuário; o executável instalado abriu e encerrou a interface no modo de teste; a desinstalação removeu a aplicação e seu registro, preservando um marcador de dados sintético. Todos os executáveis retornaram saída 0. Não houve teste de contas reais do destinatário. Os resultados estão em `verificacao.md`.
+
+Publicada a versão `v0.1.0-beta.1` no GitHub, baseada no commit `e8ba8cc`, com instalador, ZIP portátil e SHA256SUMS. O CI público passou na execução 41203912037. O instalador final tem 20.208.640 bytes, e o ZIP, 20.196.199 bytes. Foi conferida a preservação dos vinte hashes também nos arquivos do commit, além da ausência de perfis, certificados avulsos e caminhos privados no pacote selecionado. A instalação em segundo plano usada pelo botão gráfico também foi executada com sucesso em teste separado.
