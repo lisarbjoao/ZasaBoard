@@ -1,6 +1,6 @@
 # Estado da distribuição pública
 
-Versão atual: ZasaBoard Beta 2, 2.0.0-beta.9. [Instalador e ZIP](https://github.com/lisarbjoao/Idleboard-Beta/releases/tag/v2.0.0-beta.9).
+Versão atual: ZasaBoard Beta 2, 2.0.0-beta.9. [Instalador e ZIP](https://github.com/lisarbjoao/ZasaBoard/releases/tag/v2.0.0-beta.9).
 
 Inclui Início/cartões, Perfis, contas vinculadas, Jogos/URLs, Lives, Configurações e catálogo de extensões. Alinhar e espelhamento de cliques/rolagem são opt-in. Cliques foram confirmados pelo autor no jogo; rolagem passou por ensaios locais. Estabilidade prolongada, serviços externos e benefícios seguem sujeitos a conferência por máquina/conta.
 

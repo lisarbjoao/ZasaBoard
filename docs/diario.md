@@ -16,3 +16,8 @@ Publicada a versão `v0.1.0-beta.1` no GitHub, baseada no commit `e8ba8cc`, com 
 ## 2026-10-31 — ZasaBoard Beta 2
 
 Exportadas fontes próprias verificadas por hashes, com identidade ZasaBoard, Multitwitch e espelhamento. Artefatos não incluem sessões ou extensões externas. CI público aprovado e downloads/README/capa conferidos anonimamente. Ver estado.md e verificacao-beta2.md. A release Beta 1 anterior fica preservada no histórico.
+
+
+## 2026-10-31 — Nome público ZasaBoard
+
+Repositório renomeado de Idleboard-Beta para ZasaBoard. About atualizado para gestão de múltiplas sessões e perfis de jogos idle. Links correntes atualizados; dados locais e identidade interna da instalação permanecem compatíveis.

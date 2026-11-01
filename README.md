@@ -26,7 +26,7 @@ Cartões, perfis, contas vinculadas, Multitwitch, áudio, Alinhar e espelhamento
 
 ### Baixar e instalar
 
-1. Abra a [página da Beta 2](https://github.com/lisarbjoao/Idleboard-Beta/releases/tag/v2.0.0-beta.9).
+1. Abra a [página da Beta 2](https://github.com/lisarbjoao/ZasaBoard/releases/tag/v2.0.0-beta.9).
 2. Baixe **ZasaBoard-2.0.0-beta.9-Setup.exe** e execute-o.
 3. Abra **ZasaBoard Beta 2** pelo atalho da área de trabalho ou pelo menu Iniciar.
 
