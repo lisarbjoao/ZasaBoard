@@ -29,3 +29,10 @@ Para usar a versão portátil, baixe o ZIP, extraia a pasta completa e execute *
 Crie seus perfis, abra os jogos nos cartões e escolha o modo de grade. Para espelhar, deixe as contas na mesma tela do jogo e use **Alinhar → Espelhar**. **Parar** ou **Esc** encerra o espelhamento.
 
 Encontrou um problema? [Abra uma issue](https://github.com/lisarbjoao/ZasaBoard/issues).
+
+
+## Iniciar pelo codigo no Windows
+
+No terminal do VS Code, execute `.\iniciar-beta.cmd` ou abra o arquivo com dois cliques. ZasaBoard 2.0.0-beta.9 pelo codigo em app/main.py. Perfis separados em data/beta-fonte/profiles; nao usa os perfis da instalacao. Prefere .venv local e aceita o ambiente do projeto Idleboard vizinho.
+
+`.\iniciar-beta.cmd --verificar` confere o ambiente/configuracao sem abrir a interface. Nenhum instalador e executado.
