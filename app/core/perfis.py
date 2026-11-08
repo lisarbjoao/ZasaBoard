@@ -86,6 +86,8 @@ def validar(perfil):
         raise ValueError('Modo de visualização inválido.')
     return {'id': identificador, 'personagem': nome_valido(perfil.get('personagem')),
             'visivel': perfil['visivel'], 'vinculos': vinculos, 'lives': lives,
+            **({'zoom_percentual': perfil['zoom_percentual']}
+               if type(perfil.get('zoom_percentual')) is int and 10 <= perfil['zoom_percentual'] <= 200 else {}),
             'visualizacao': visualizacao, 'audio': audio.validar(perfil.get('audio'))}
 
 

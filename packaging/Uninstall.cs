@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using Microsoft.Win32;
 
 class Uninstall {
-    internal const string Version = "2.0.0-beta.9";
+    internal const string Version = "2.0.0-beta.10";
     [STAThread]
     static int Main(string[] args) {
         bool silent=Array.IndexOf(args,"--silent")>=0;

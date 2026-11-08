@@ -40,6 +40,8 @@ def ajustar_zoom(estado):
         return
     escala = host.winfo_fpixels("1i") / 96
     zoom = estado.get('_zoom_espelhado',round(zoom_cartao(host.winfo_width(), escala, estado.get('visualizacao', 'encaixar')), 3))
+    if '_zoom_espelhado' not in estado and estado.get('zoom_percentual') is not None:
+        zoom = estado['zoom_percentual'] / 100
     if estado.get("zoom") != zoom:
         web.set_zoom(zoom)
         estado["zoom"] = zoom

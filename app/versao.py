@@ -1,1 +1,1 @@
-VERSAO = '2.0.0-beta.9'
+VERSAO = '2.0.0-beta.10'

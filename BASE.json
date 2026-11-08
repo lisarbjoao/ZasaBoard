@@ -1,8 +1,8 @@
 {
-  "versao": "2.0.0-beta.9",
+  "versao": "2.0.0-beta.10",
   "checkpoint": "e7fb8d201569076df904e189b6777781d2f55dfb",
   "origem": "exportacao das fontes proprias da Beta 2 aprovada em uso",
-  "modificacoes_no_nucleo": false,
+  "modificacoes_no_nucleo": true,
   "inclui_dados_pessoais": false,
   "inclui_extensoes_de_terceiros": false,
   "fontes_sha256": {
@@ -14,7 +14,7 @@
     "core/__init__.py": "59939db3100c034bfcf98bc9e72ffaf89fa876f2d46fbfd3d9705f15dc085cfc",
     "core/ambiente.py": "cd929a9003611348ccefa1f07186d1fa0b161c327ebbd144dc2e805e74dbc7c6",
     "core/audio.py": "324a51eeafa008b41500ee9a52855177b8352a85f2e07e9c9e510c1534ab7ee1",
-    "core/browserman.py": "f2c4cd627c89bdec1c53d3e606281557930bfd2aa62462629396c45842977328",
+    "core/browserman.py": "621d9b2c660a769d091c060129ca54a7e891e05670ac79c773db0ca8abf3a565",
     "core/configuracoes.py": "30ddeae39833a984bb826c9359a0059aa09488485c4ae6b21956c3b65d5a1b17",
     "core/enderecos.py": "e8190d4afe3b1199c22447b590ba819da3779e0fee0320977f1886e251871649",
     "core/espelho.py": "2311c56b922c9cbc54164d854c57440a0119cf1706cfd96a6aa8a0ebe8ac1159",
@@ -26,7 +26,7 @@
     "core/limpeza.py": "2dd053da5bcc835bd9b855f6d273712a8aa7817f8abf6e40e4c20f6b6fbb2751",
     "core/lives.py": "1979f9863a19805c9eae977325b22f0368c7b152e7c58d3c5d61878eaa11317b",
     "core/multitwitch.py": "f82e8c10b2beb6d7c78eb4e0d678494be44f318ee9cc225b9b856f0b789b77ed",
-    "core/perfis.py": "0bc02114285f2fe658327a12920033194b1835041528feb301c402ed8124f866",
+    "core/perfis.py": "ccc5c62f0995515a58bad99380e7d21809622f26b7bf8cfd7ff989451a025eec",
     "core/sessoes_vinculadas.py": "8b0f0aac24491222275af8231d19094b9eb1c31426de8caebc8fc77f05bfb18e",
     "core/streamopt.py": "66db8d4806794d077ea9df07b017e70dc23f405b6816020996cfef8de195594e",
     "core/vinculos_stream.py": "072ef729553bdbe827020e55bb30a65fc97a047ff76ed2cfc7b620198470fd4b",
@@ -38,8 +38,8 @@
     "marca.py": "65eb86352e77628857b006c13301e08b0661ae3a2e9ee78a3126e22661fa22dc",
     "movimento.py": "1dcd5eb12a0e484e5220e3f1b5f16966605ba01d55b8f574be3eea499e501f34",
     "perfis_interface.py": "b9dc5081774787ef2e0eeb242807c424cbab2d069ba920260309a45fc9002c49",
-    "prova_navegador.py": "88aecda0032d402166a12035c89d7053b10408e9820a5b56b050bd6dc313474d",
+    "prova_navegador.py": "0f27957644e164f8641c18bd0febcf049d3e5779e3240bf55e79a35c7053133c",
     "rolagem.py": "7a71b8ec91a099ade892846fa6154867d914665bf1b05d99e875a16a80b809cc",
-    "versao.py": "bc7da708bb65c8e08cc2b80de298da2822e931b7b5671dfb15f5ddf7ea9ebe0d"
+    "versao.py": "fd67bd3739e1c80a914de28fbd5f6a0f7fd1f33a921df82c52e1a0bc517b29b9"
   }
 }

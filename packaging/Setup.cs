@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using Microsoft.Win32;
 
 class Setup {
-    const string Version="2.0.0-beta.9";
+    const string Version="2.0.0-beta.10";
     const string PayloadSha="__PAYLOAD_SHA__";
     const string RegKey=@"Software\Microsoft\Windows\CurrentVersion\Uninstall\IdleboardBeta";
     static string Local { get { return Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData); } }

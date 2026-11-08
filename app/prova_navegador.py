@@ -69,6 +69,41 @@ def instalar(cartao, corpo, mensagem, rodape, perfil):
 
     botao_visualizacao = ctk.CTkButton(cartao, text='\ue9a6', font=('Segoe MDL2 Assets', 16),
         width=LARGURA_ICONE_CARTAO, **BOTAO_CARTAO, command=alternar_visualizacao)
+    estado['zoom_percentual'] = perfil.get('zoom_percentual')
+    def escolher_zoom(percentual):
+        anterior = perfil.get('zoom_percentual')
+        if anterior == percentual:
+            return
+        perfil['zoom_percentual'] = percentual
+        salvar = perfil.get('_salvar')
+        if salvar and not salvar():
+            perfil['zoom_percentual'] = anterior
+            return
+        espelho = perfil.get('_espelho_controlador')
+        if espelho and (espelho.ativo or espelho.preparando or espelho.alinhado):
+            espelho.parar('Espelhamento pausado: zoom do cartão alterado.')
+        estado['zoom_percentual'] = percentual
+        browserman.ajustar_zoom(estado)
+        browserman.informar(estado, 'Zoom automático' if percentual is None else f'Zoom da página: {percentual}%')
+
+    def abrir_zoom():
+        menu = tk.Menu(cartao, tearoff=False)
+        valor = tk.StringVar(master=menu, value=str(perfil.get('zoom_percentual')))
+        for percentual in (None, 10, 15, 20, 25, 33, 50, 67, 75, 90, 100, 125, 150, 200):
+            menu.add_radiobutton(label='Automático' if percentual is None else f'{percentual}%',
+                                 variable=valor, value=str(percentual),
+                                 command=lambda p=percentual: escolher_zoom(p))
+        try:
+            menu.tk_popup(botao_zoom.winfo_rootx(), botao_zoom.winfo_rooty()+botao_zoom.winfo_height())
+        finally:
+            menu.grab_release()
+
+    rodape.grid_configure(columnspan=1)
+    botao_zoom = ctk.CTkButton(cartao, text='\ue71e', font=('Segoe MDL2 Assets', 16),
+        width=LARGURA_ICONE_CARTAO, **BOTAO_CARTAO, command=abrir_zoom)
+    botao_zoom.grid(row=2, column=1, padx=1, pady=4)
+    botao_zoom.bind('<Enter>', lambda _: rodape.configure(text='Zoom da página'))
+    botao_zoom.bind('<Leave>', lambda _: rodape.configure(text=estado['status']))
     botao_visualizacao.grid(row=2, column=2, padx=1, pady=4)
     botao_visualizacao.bind('<Enter>', lambda _: rodape.configure(
         text='Alternar: visualização leve / página inteira'))

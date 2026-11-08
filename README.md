@@ -16,8 +16,8 @@
 
 ## Instalar
 
-1. Acesse a [Beta 2](https://github.com/lisarbjoao/ZasaBoard/releases/tag/v2.0.0-beta.9).
-2. Baixe **ZasaBoard-2.0.0-beta.9-Setup.exe** e execute.
+1. Acesse a [Beta 2](https://github.com/lisarbjoao/ZasaBoard/releases/tag/v2.0.0-beta.10).
+2. Baixe **ZasaBoard-2.0.0-beta.10-Setup.exe** e execute.
 3. Abra **ZasaBoard Beta 2** pelo atalho da área de trabalho ou pelo menu Iniciar.
 
 Requer Windows 10/11 de 64 bits e Microsoft Edge WebView2 Runtime. Não precisa instalar Python nem manter o VS Code aberto.
