@@ -21,3 +21,8 @@ Exportadas fontes próprias verificadas por hashes, com identidade ZasaBoard, Mu
 ## 2026-10-31 — Nome público ZasaBoard
 
 Repositório renomeado de Idleboard-Beta para ZasaBoard. About atualizado para gestão de múltiplas sessões e perfis de jogos idle. Links correntes atualizados; dados locais e identidade interna da instalação permanecem compatíveis.
+
+
+## 2026-11-04 — Inicializador pelo codigo
+
+Preparado `iniciar-beta.cmd` para uso local no notebook. ZasaBoard 2.0.0-beta.9 pelo codigo em app/main.py. Perfis separados em data/beta-fonte/profiles; nao usa os perfis da instalacao. Prefere .venv local e aceita o ambiente do projeto Idleboard vizinho. Validacao sem abertura aprovada; aplicativos nao abertos a pedido do usuario.
