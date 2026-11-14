@@ -36,3 +36,11 @@ Encontrou um problema? [Abra uma issue](https://github.com/lisarbjoao/ZasaBoard/
 No terminal do VS Code, execute `.\iniciar-beta.cmd` ou abra o arquivo com dois cliques. ZasaBoard 2.0.0-beta.9 pelo codigo em app/main.py. Perfis separados em data/beta-fonte/profiles; nao usa os perfis da instalacao. Prefere .venv local e aceita o ambiente do projeto Idleboard vizinho.
 
 `.\iniciar-beta.cmd --verificar` confere o ambiente/configuracao sem abrir a interface. Nenhum instalador e executado.
+
+
+## Entender o código e manter a documentação
+- [Guia de arquitetura e estudo](docs/arquitetura.md)
+- [Constituição da documentação](CONSTITUICAO-DOCUMENTACAO.md)
+- [Mapa documental e lacunas](PLANO-DOCUMENTACAO.md)
+
+Revisão documental de 13/11/2026; evidências históricas não foram reexecutadas por esta atualização.

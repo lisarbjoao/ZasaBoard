@@ -1,5 +1,10 @@
 # Estado da distribuição pública
 
+## Referência documental conferida em 13/11/2026
+README.md e BASE.json apontam para 2.0.0-beta.10. O registro abaixo descreve a beta.9 e fica preservado como histórico. A existência e o funcionamento do pacote publicado não foram revalidados nesta revisão. Para entender o código consultado, ler [arquitetura](arquitetura.md).
+
+## Registro anterior — beta.9
+
 Versão atual: ZasaBoard Beta 2, 2.0.0-beta.9. [Instalador e ZIP](https://github.com/lisarbjoao/ZasaBoard/releases/tag/v2.0.0-beta.9).
 
 Inclui Início/cartões, Perfis, contas vinculadas, Jogos/URLs, Lives, Configurações e catálogo de extensões. Alinhar e espelhamento de cliques/rolagem são opt-in. Cliques foram confirmados pelo autor no jogo; rolagem passou por ensaios locais. Estabilidade prolongada, serviços externos e benefícios seguem sujeitos a conferência por máquina/conta.
