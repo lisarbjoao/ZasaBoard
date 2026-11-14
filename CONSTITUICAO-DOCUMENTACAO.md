@@ -4,7 +4,7 @@ Versão 1.0 · 13/11/2026 · orientação solicitada pelo proprietário para con
 ## Finalidade e hierarquia
 Manter documentação útil para desenvolver, revisar, operar e estudar o projeto. O pedido atual do proprietário e as permissões do ambiente prevalecem; preservar decisões e autorizações existentes.
 Esta constituição não certifica segurança, qualidade ou conclusão. Não cria uma aprovação que não ocorreu. Adapte exigências ao tamanho e ao risco: um protótipo não precisa de documentação de uma plataforma corporativa.
-A base geral de consulta está no [guia central](https://github.com/lisarbjoao/Brumas/blob/main/docs/GUIA-GERAL-DE-DESENVOLVIMENTO.md). Cada projeto tem sua cópia local e seu mapa; atualizar o guia central não altera automaticamente as cópias.
+A base geral de consulta está no [guia central](https://github.com/lisarbjoao/Brumas/blob/main/Docs/Geral/GUIA-GERAL-DE-DESENVOLVIMENTO.md). Cada projeto tem sua cópia local e seu mapa; atualizar o guia central não altera automaticamente as cópias.
 
 ## Entrada e anamnese
 Ao iniciar ou retomar: ler índice, plano/estado, arquitetura e instruções locais; procurar respostas antes de perguntar. Em projeto novo, esclarecer problema, usuários, fluxo, entrada/saída, sucesso, escopo, ambiente, dados, integrações, restrições e forma de entrega.
